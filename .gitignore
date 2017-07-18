@@ -5,6 +5,12 @@
 # Don't include files with sensitive data
 /.zshrc-secrets
 
+# Backups, tempfiles, archives
+*.bak
+backup
+archive
+*tmp
+
 # iJunk
 .MacOSX
 .Trash
@@ -83,7 +89,6 @@
 /.netrc
 /.njxnqxgn
 /.npm
-/.oh-my-zsh
 /.parallel
 /.pip
 /.pip-accel
