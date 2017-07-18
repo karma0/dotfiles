@@ -1,0 +1,24 @@
+incs=( \
+    arch \
+    dev \
+    laptop \
+    layout \
+)
+
+for inc in "${incs[@]}"; do
+    source $DOTS/includes/$inc/zshrc
+done
+
+# Mount Aliases 
+function mnt { mount | grep $1 > /dev/null || sudo mount $1; } 
+function umnt { mount | grep $1 > /dev/null && sudo umount $1; } 
+ 
+alias vm="mnt ~/shared_vm" 
+alias uvm="umnt ~/shared_vm" 
+alias home="mnt ~/mnt/home"
+alias uhome="umnt ~/mnt/home"
+alias shares="mnt ~/mnt/shares"
+alias ushares="umnt ~/mnt/shares"
+ 
+cdpath+="$HOME/src/perforce"
+

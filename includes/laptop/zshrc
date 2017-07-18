@@ -1,0 +1,4 @@
+# Add laptop functionality to the shell
+
+plugins+=('battery')
+

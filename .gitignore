@@ -1,6 +1,11 @@
 # non-dot files
 /[^.]*
 !/bin
+!/includes
+!/hosts
+!/dotfiles
+!/dotconfig
+!/install.sh
 
 # Don't include files with sensitive data
 /.zshrc-secrets

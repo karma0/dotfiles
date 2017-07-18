@@ -1,0 +1,6 @@
+source ../../includes/arch/zshrc
+source ../../includes/laptop/zshrc
+source ../../includes/dev/zshrc
+
+alias chromium="chromium --ignore-gpu-blacklist"
+

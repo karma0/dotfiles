@@ -1,0 +1,4 @@
+# Add arch functionality to the shell
+
+plugins+=('archlinux')
+
