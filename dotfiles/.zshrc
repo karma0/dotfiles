@@ -140,6 +140,8 @@ alias vim="$EDITOR"
 
 alias watch="watch --color"
 
+alias homesick="homeshick"
+
 
 #####
 ## Paths
@@ -162,10 +164,7 @@ cdpath=($HOME/src/perforce $HOME/src)
 ## Host Includes
 ###
 
-export DOTS=$HOME/.homesick
-
-export HOST=${$(hostname)%%[.0-9]*}
-source $DOTS/hosts/$host/zshrc
+source $DOTS/hosts/$HOSTCLASS/zshrc
 
 
 ###############################################################################
