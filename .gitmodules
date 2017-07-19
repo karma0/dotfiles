@@ -1,3 +1,6 @@
 [submodule "oh-my-zsh"]
 	path = dotfiles/oh-my-zsh
 	url = https://github.com/robbyrussell/oh-my-zsh.git
+[submodule "repos/vimrc"]
+	path = repos/vimrc
+	url = https://github.com/karma0/vimrc

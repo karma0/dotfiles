@@ -6,6 +6,7 @@
 !/dotfiles
 !/dotconfig
 !/install.sh
+!/repos
 
 # Don't include files with sensitive data
 /.zshrc-secrets
