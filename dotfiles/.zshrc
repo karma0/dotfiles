@@ -101,11 +101,17 @@ fi
 export VISUAL=$EDITOR
 
 
+# Setup homeshick
+source $DOTS/repos/homeshick/homeshick.sh
+fpath=($DOTS/repos/homeshick/completions $fpath)
+
+
 #####
 ## Aliases
 ###
 
 alias l="ls -Ah --color=auto"
+alias la="ls -ah --color=auto"
 alias ll="ls -lAh --color=auto"
 alias lt="ls -lAhrt --color=auto"
 
@@ -156,10 +162,9 @@ cdpath=($HOME/src/perforce $HOME/src)
 ## Host Includes
 ###
 
-#export DOTS=$HOME/.dotfiles
-export DOTS=$HOME/karma0-dotfiles
+export DOTS=$HOME/.homesick
 
-host=${$(hostname)%%[.0-9]*}
+export HOST=${$(hostname)%%[.0-9]*}
 source $DOTS/hosts/$host/zshrc
 
 

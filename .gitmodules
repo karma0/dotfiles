@@ -4,3 +4,6 @@
 [submodule "repos/vimrc"]
 	path = repos/vimrc
 	url = https://github.com/karma0/vimrc
+[submodule "repos/homeshick"]
+	path = repos/homeshick
+	url = https://github.com/andsens/homeshick
