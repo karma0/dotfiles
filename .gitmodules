@@ -7,3 +7,12 @@
 [submodule "repos/homeshick"]
 	path = repos/homeshick
 	url = https://github.com/andsens/homeshick
+[submodule "repos/.files"]
+	path = repos/.files
+	url = https://github.com/karma0/.files
+[submodule "repos/home-scripts"]
+	path = repos/home-scripts
+	url = https://github.com/karma0/home-scripts
+[submodule "repos/i3-config"]
+	path = repos/i3-config
+	url = https://github.com/karma0/i3-config
