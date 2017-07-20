@@ -1,0 +1,12 @@
+incs=( \
+    arch \
+    dev \
+    laptop \
+    layout \
+    gpu \
+    games \
+)
+
+for inc in "${incs[@]}"; do
+    source $DOTS/includes/$inc/zshrc
+done
