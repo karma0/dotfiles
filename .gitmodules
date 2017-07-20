@@ -1,18 +1,6 @@
 [submodule "oh-my-zsh"]
 	path = dotfiles/oh-my-zsh
 	url = https://github.com/robbyrussell/oh-my-zsh.git
-[submodule "repos/vimrc"]
-	path = repos/vimrc
-	url = https://github.com/karma0/vimrc
 [submodule "repos/homeshick"]
 	path = repos/homeshick
 	url = https://github.com/andsens/homeshick
-[submodule "repos/.files"]
-	path = repos/.files
-	url = https://github.com/karma0/.files
-[submodule "repos/home-scripts"]
-	path = repos/home-scripts
-	url = https://github.com/karma0/home-scripts
-[submodule "repos/i3-config"]
-	path = repos/i3-config
-	url = https://github.com/karma0/i3-config
