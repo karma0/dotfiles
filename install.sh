@@ -34,7 +34,7 @@ echo; echo "Please validate that there are no errors in the above output..."; ec
 echo
 echo "************************ Setting Up Homesick ************************"
 echo
-source ./.homesick/repos/homeshick/homeshick.sh
+source ~/.homesick/repos/homeshick/homeshick.sh
 homeshick link
 
 if [ -f "$host_install_script" ]; then
@@ -46,3 +46,4 @@ fí
 
 echo "**************************** Completed! *****************************"
 exit 0
+
