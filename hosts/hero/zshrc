@@ -3,7 +3,7 @@ incs=( \
     dev \
     laptop \
     layout \
-    gpu \
+    #gpu \
     games \
 )
 
