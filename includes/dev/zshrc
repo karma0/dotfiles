@@ -6,6 +6,7 @@ plugins+=( \
     coffee \
     docker \
     fabric \
+    git-flow-avh \
     meteor \
     npm \
     pep8 \
@@ -36,7 +37,7 @@ source /usr/bin/virtualenvwrapper.sh
 export PYTHONPATH="$PYTHONPATH:$HOME/src/python/wild_things/wild_things"           
 
 # System install of ruby                                                           
-export PATH="$PATH:/home/karma0/.gem/ruby/2.3.0/bin"                               
+#export PATH="$PATH:/home/karma0/.gem/ruby/2.3.0/bin"                               
                                                                                    
 # Heroku                                                                           
 PATH="/usr/local/heroku/bin:$PATH"                                                 
