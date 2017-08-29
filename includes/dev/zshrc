@@ -1,50 +1,14 @@
 # Add dev functionality to the shell
 
 plugins+=( \
-    aws \
-    bower \
-    coffee \
-    docker \
-    fabric \
     git-flow-avh \
-    meteor \
-    npm \
-    pep8 \
-    pylint \
-    rails \
     redis-cli \
-    ruby \
-    rvm \
-    virtualenv \
-    virtualenvwrapper \
-    vagrant \
 )
 
-# Node.js development                                                              
-export PATH="./node_modules/.bin:$PATH"                                            
-                                                                                   
-# chef-zero                                                                        
-#export PATH="$PATH:$HOME/.chefdk/gem/ruby/2.1.0/bin"                              
-                                                                                   
 # CCACHE on non-portage                                                            
-export PATH="/usr/lib/ccache/bin:$PATH"                                            
-                                                                                   
-# Python virtualenvwrapper                                                         
-export WORKON_HOME="$HOME/src/python"                                             
-source /usr/bin/virtualenvwrapper.sh                                              
-                                                                                   
-# Personal python library                                                          
-export PYTHONPATH="$PYTHONPATH:$HOME/src/python/wild_things/wild_things"           
+[ -d "/usr/lib/ccache/bin" ] && export PATH="/usr/lib/ccache/bin:$PATH"
 
-# System install of ruby                                                           
-#export PATH="$PATH:/home/karma0/.gem/ruby/2.3.0/bin"                               
-                                                                                   
-# Heroku                                                                           
-PATH="/usr/local/heroku/bin:$PATH"                                                 
-                                                                                   
-# Google Cloud                                                                     
-# enable shell command completion for gcloud.                                      
-#source /opt/google-cloud-sdk/completion.zsh.inc                                   
-# add the Google Cloud SDK command line tools to your $PATH.                       
-#source /opt/google-cloud-sdk/path.zsh.inc                                         
-
+for env in "${devenvs[@]}"; do
+  [ -f "$DOTS/includes/dev/envs/${env}.sh" ] && \
+      source $DOTS/includes/dev/envs/${env}.sh
+done

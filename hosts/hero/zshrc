@@ -7,6 +7,13 @@ incs=( \
     games \
 )
 
+devenvs=( \
+  cloud \
+  javascript \
+  python \
+  ruby \
+)
+
 for inc in "${incs[@]}"; do
     source $DOTS/includes/$inc/zshrc
 done
