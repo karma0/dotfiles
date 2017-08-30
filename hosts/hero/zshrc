@@ -9,6 +9,7 @@ incs=( \
 
 devenvs=( \
   cloud \
+  go \
   javascript \
   python \
   ruby \
