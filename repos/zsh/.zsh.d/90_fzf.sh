@@ -2,16 +2,16 @@
 # ---------
 if [ -d "$HOME/.fzf" ]; then
 
-  if [[ ! "$PATH" == */home/rlarson/.fzf/bin* ]]; then
-    export PATH="$PATH:/home/rlarson/.fzf/bin"
+  if [[ ! "$PATH" == *$HOME/.fzf/bin* ]]; then
+    export PATH="$PATH:$HOME/.fzf/bin"
   fi
 
   # Auto-completion
   # ---------------
-  [[ $- == *i* ]] && source "/home/rlarson/.fzf/shell/completion.zsh" 2> /dev/null
+  [[ $- == *i* ]] && source "$HOME/.fzf/shell/completion.zsh" 2> /dev/null
 
   # Key bindings
   # ------------
-  source "/home/rlarson/.fzf/shell/key-bindings.zsh"
+  [ -d "$HOME/.fzf" ] && source "$HOME/.fzf/shell/key-bindings.zsh"
 
 fi
