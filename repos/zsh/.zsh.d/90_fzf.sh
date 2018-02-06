@@ -12,6 +12,6 @@ if [ -d "$HOME/.fzf" ]; then
 
   # Key bindings
   # ------------
-  [ -d "$HOME/.fzf" ] && source "$HOME/.fzf/shell/key-bindings.zsh"
+  source "$HOME/.fzf/shell/key-bindings.zsh"
 
 fi

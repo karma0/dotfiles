@@ -1,4 +1,4 @@
-plugins+=( aws docker fabric vagrant )
+plugins+=( docker fabric vagrant )
 
 # chef-zero
 #export PATH="$PATH:$HOME/.chefdk/gem/ruby/2.1.0/bin"
