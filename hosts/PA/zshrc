@@ -8,6 +8,7 @@ incs=( \
 devenvs=( \
   python \
   go \
+  keyboard \
 )
   
 
