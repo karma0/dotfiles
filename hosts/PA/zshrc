@@ -28,6 +28,8 @@ alias ushares="umnt ~/mnt/shares"
 
 cdpath+="$HOME/p"
 
+export NO_CUDA=1
+
 export P4EDITOR=vim
 export P4USER=rlarson
 export P4PORT=yoko.gcs.govsolutions.com:1666

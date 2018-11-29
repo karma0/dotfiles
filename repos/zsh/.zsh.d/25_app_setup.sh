@@ -25,3 +25,7 @@ export ZSH_CACHE_DIR=$HOME/.zsh_cache/fasd-init-cache
 fpath=(~/.zsh/completions $fpath)
 autoload -U compinit && compinit
 [[ -x $(which hub) ]] && eval "$(hub alias -s)"
+
+# Google Cloud SDK
+[ -f '/home/rlarson/src/google-cloud-sdk/path.zsh.inc' ] && source '/home/rlarson/src/google-cloud-sdk/path.zsh.inc'
+[ -f '/home/rlarson/src/google-cloud-sdk/completion.zsh.inc' ] && source '/home/rlarson/src/google-cloud-sdk/completion.zsh.inc'
