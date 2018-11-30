@@ -12,14 +12,6 @@ if [ -d "$HOME/.fzf" ]; then
 
   # Key bindings
   # ------------
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
   source "$HOME/.fzf/shell/key-bindings.zsh"
-=======
-  source "/home/rlarson/.fzf/shell/key-bindings.zsh"
->>>>>>> Stashed changes
-=======
-  source "/home/rlarson/.fzf/shell/key-bindings.zsh"
->>>>>>> Stashed changes
 
 fi
