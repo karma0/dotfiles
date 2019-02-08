@@ -14,3 +14,7 @@ plugins+=( docker fabric vagrant )
 [ -f "/opt/google-cloud-sdk/path.zsh.inc" ] && \
 		source /opt/google-cloud-sdk/path.zsh.inc
 
+cdpath+=(
+  ~/src/terraform
+  ~/src/tf
+)
