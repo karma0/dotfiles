@@ -14,7 +14,6 @@ plugins=( \
   jsontools \
   lol \
   mercurial \
-  nyan \
   pip \
   pyenv \
   python \

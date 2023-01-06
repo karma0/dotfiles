@@ -1,0 +1,39 @@
+incs=( \
+    arch \
+    dev \
+    laptop \
+    layout \
+)
+
+devenvs=( \
+  python \
+  go \
+  keyboard \
+  cloud \
+)
+  
+
+for inc in "${incs[@]}"; do
+    source $DOTS/includes/$inc/zshrc
+done
+
+# Mount Aliases 
+function mnt { mount | grep $1 > /dev/null || sudo mount $1; } 
+function umnt { mount | grep $1 > /dev/null && sudo umount $1; } 
+alias vm="mnt ~/shared_vm" 
+alias uvm="umnt ~/shared_vm" 
+alias home="mnt ~/mnt/home"
+alias uhome="umnt ~/mnt/home"
+alias shares="mnt ~/mnt/shares"
+alias ushares="umnt ~/mnt/shares"
+
+cdpath+="$HOME/p"
+plugins+="zsh-autocomplete"
+
+#export NO_CUDA=1
+
+export P4EDITOR=vim
+export P4USER=rlarson
+export P4PORT=yoko.gcs.govsolutions.com:1666
+export P4CONFIG=p4_config
+
