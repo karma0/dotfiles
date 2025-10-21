@@ -1,8 +1,14 @@
 # Add dev functionality to the shell
 
 plugins+=( \
-    git-flow-avh \
-    redis-cli \
+  git \
+  git-flow-avh \
+  redis-cli \
+  kubectl \
+  zsh-syntax-highlighting \
+  fast-syntax-highlighting \
+  zsh-autosuggestions \
+  #zsh-autocomplete \
 )
 
 # CCACHE on non-portage                                                            

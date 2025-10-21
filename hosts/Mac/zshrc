@@ -1,13 +1,12 @@
 incs=( \
-    arch \
-    dev \
-    laptop \
-    layout \
+  dev \
+  laptop \
+  layout \
 )
 
 devenvs=( \
   python \
-  go \
+  golang \
   keyboard \
   cloud \
 )
@@ -28,7 +27,6 @@ alias shares="mnt ~/mnt/shares"
 alias ushares="umnt ~/mnt/shares"
 
 cdpath+="$HOME/p"
-plugins+="zsh-autocomplete"
 
 #export NO_CUDA=1
 
