@@ -2,7 +2,7 @@
 # Works on the LAN and over Tailscale alike: the subnet routers advertise 172.29.0.0/20, and plain
 # kubectl targets the lab (~/.kube/config -> ~/.kube/k3s-lab.yaml).
 
-# This plugin's scripts (rig-attach).
+# This plugin's scripts (rig-attach, rig-seat).
 export PATH="$DOTS/includes/lab/bin:$PATH"
 
 # OpenRig tenants: open herdr inside the tenant pod with a rig's seats tiled. `rig-attach <tenant> [rig]`.
@@ -10,3 +10,7 @@ export PATH="$DOTS/includes/lab/bin:$PATH"
 alias aktoh-dev='rig-attach aktoh aktoh-dev'      # Aktoh development team (lead, builder, reviewer)
 alias aktoh-kernel='rig-attach aktoh kernel'       # the Aktoh tenant's OpenRig operator team
 alias tafylabs-kernel='rig-attach tafylabs kernel' # the TafyLabs tenant's OpenRig operator team
+
+# Developer seats (one per repo) in a tenant's dev rig: list | add <repo> [--model M --effort E] | remove <repo>
+# | sync [--prune] | reap [--idle 6h]. `rig-seat <tenant> ...`.
+alias aktoh-seat='rig-seat aktoh'

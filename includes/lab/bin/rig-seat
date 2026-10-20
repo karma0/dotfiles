@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+# rig-seat — manage per-repo developer seats in an OpenRig tenant pod on k3s-lab, from the Mac.
+#
+#   rig-seat <tenant> list | add <repo> [--model M] [--effort E] | remove <repo> | sync [--prune] | reap [--idle 6h]
+#   alias aktoh-seat='rig-seat aktoh'        (in ~/.homesick/includes/lab/zshrc)
+#
+# Runs tafy-rigs' bin/seat inside the tenant's rig container. The rig defaults to <tenant>-dev; set
+# SEAT_RIG to target another rig in the tenant.
+set -euo pipefail
+tenant=${1:?usage: rig-seat <tenant> list|add|remove|sync|reap ...}
+shift
+rig=${SEAT_RIG:-$tenant-dev}
+exec kubectl -n "rig-$tenant" exec "rig-$tenant-0" -c rig -- bash -lc 'SEAT_RIG="$0" exec seat "$@"' "$rig" "$@"
