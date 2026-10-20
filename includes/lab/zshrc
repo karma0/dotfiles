@@ -1,0 +1,12 @@
+# lab: shortcuts for the home lab (k3s-lab on krad.site), sourced by host profiles that list `lab`.
+# Works on the LAN and over Tailscale alike: the subnet routers advertise 172.29.0.0/20, and plain
+# kubectl targets the lab (~/.kube/config -> ~/.kube/k3s-lab.yaml).
+
+# This plugin's scripts (rig-attach).
+export PATH="$DOTS/includes/lab/bin:$PATH"
+
+# OpenRig tenants: open herdr inside the tenant pod with a rig's seats tiled. `rig-attach <tenant> [rig]`.
+# One alias per running rig; with no rig named you land in herdr without a new view.
+alias aktoh-dev='rig-attach aktoh aktoh-dev'      # Aktoh development team (lead, builder, reviewer)
+alias aktoh-kernel='rig-attach aktoh kernel'       # the Aktoh tenant's OpenRig operator team
+alias tafylabs-kernel='rig-attach tafylabs kernel' # the TafyLabs tenant's OpenRig operator team

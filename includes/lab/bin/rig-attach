@@ -1,0 +1,32 @@
+#!/usr/bin/env bash
+# rig-attach — open herdr inside an OpenRig tenant pod on k3s-lab, with a rig's seats tiled.
+#
+#   rig-attach <tenant> [rig]        e.g.  rig-attach aktoh aktoh-dev
+#   aliases: ~/.homesick/includes/lab/zshrc (the `lab` plugin), e.g. aktoh-dev
+#
+# Runs on the operator Mac, on the LAN or over Tailscale (plain kubectl targets the lab). herdr's server
+# lives in the pod (started once, detached; it survives this command and any dropped connection), so panes
+# keep running when you close the terminal: detach and run the command again to pick up where you were.
+# The rig's view (one workspace named after the rig, a nested tmux attach per seat) is created only when
+# missing; `rig terminal open` would otherwise add a duplicate each time.
+set -euo pipefail
+tenant=${1:?usage: rig-attach <tenant> [rig]}
+rig=${2:-}
+ns="rig-$tenant"
+pod="rig-$tenant-0"
+KUBECTL=(kubectl -n "$ns")
+
+"${KUBECTL[@]}" get pod "$pod" >/dev/null 2>&1 \
+  || { echo "rig-attach: pod $ns/$pod not found (is the tenant running? kubectl -n $ns get pods)" >&2; exit 1; }
+
+"${KUBECTL[@]}" exec "$pod" -c rig -- bash -lc '
+  set -e
+  rig_name="$1"
+  pgrep -f "^herdr server" >/dev/null || { setsid -f herdr server >"${TMPDIR:-/tmp}/herdr-server.log" 2>&1; sleep 1; }
+  if [ -n "$rig_name" ] && ! herdr workspace list 2>/dev/null | jq -e --arg r "$rig_name" \
+       "any(.result.workspaces[]; .label == \$r)" >/dev/null; then
+    rig terminal open "$rig_name" --provider herdr >/dev/null 2>&1 || echo "rig-attach: could not open the $rig_name view (is the rig up? rig ps --nodes --rig $rig_name)" >&2
+  fi
+' _ "$rig"
+
+exec "${KUBECTL[@]}" exec -it "$pod" -c rig -- env TERM="${TERM:-xterm-256color}" COLORTERM="${COLORTERM:-truecolor}" herdr

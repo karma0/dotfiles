@@ -1,6 +1,7 @@
 incs=( \
     arch \
     dev \
+    lab \
     laptop \
     layout \
     #gpu \

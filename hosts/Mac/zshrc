@@ -1,5 +1,6 @@
 incs=( \
   dev \
+  lab \
   laptop \
   layout \
 )
