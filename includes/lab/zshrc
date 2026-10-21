@@ -9,8 +9,11 @@ export PATH="$DOTS/includes/lab/bin:$PATH"
 # One alias per running rig; with no rig named you land in herdr without a new view.
 alias aktoh-dev='rig-attach aktoh aktoh-dev'      # Aktoh development team (lead, builder, reviewer)
 alias aktoh-kernel='rig-attach aktoh kernel'       # the Aktoh tenant's OpenRig operator team
+alias mindhive-dev='rig-attach mindhive mindhive-dev' # MindHive development team (lead, builder, reviewer)
+alias mindhive-kernel='rig-attach mindhive kernel'   # the MindHive tenant's OpenRig operator team
 alias tafylabs-kernel='rig-attach tafylabs kernel' # the TafyLabs tenant's OpenRig operator team
 
 # Developer seats (one per repo) in a tenant's dev rig: list | add <repo> [--model M --effort E] | remove <repo>
 # | sync [--prune] | reap [--idle 6h]. `rig-seat <tenant> ...`.
 alias aktoh-seat='rig-seat aktoh'
+alias mindhive-seat='rig-seat mindhive'
