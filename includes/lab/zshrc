@@ -17,3 +17,8 @@ alias tafylabs-kernel='rig-attach tafylabs kernel' # the TafyLabs tenant's OpenR
 # | sync [--prune] | reap [--idle 6h]. `rig-seat <tenant> ...`.
 alias aktoh-seat='rig-seat aktoh'
 alias mindhive-seat='rig-seat mindhive'
+
+# What a tenant is doing, read-only: seats + open rows; a row (qitem-…) with its notes; a seat's screen (seat@rig);
+# `watch seat@rig` follows a seat live (read-only, Ctrl-b d). `rig-status <tenant> ...`.
+alias aktoh-status='rig-status aktoh'
+alias mindhive-status='rig-status mindhive'

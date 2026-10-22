@@ -1,0 +1,44 @@
+#!/usr/bin/env bash
+# rig-status — what an OpenRig tenant on k3s-lab is doing, from the Mac, without opening herdr.
+#
+#   rig-status <tenant>                    seats (all rigs) + every open queue row: state, owner, what it waits on
+#   rig-status <tenant> <qitem-id>         one row: summary, tags, transitions with notes, rows made for it
+#   rig-status <tenant> <seat@rig>         the seat's screen right now (last 60 lines)
+#   rig-status <tenant> watch <seat@rig>   follow the seat live, read-only (detach: Ctrl-b d)
+#   aliases: aktoh-status, mindhive-status (~/.homesick/includes/lab/zshrc)
+#
+# Read-only: it lists, shows and captures; it never sends to a seat or changes a row.
+set -euo pipefail
+tenant=${1:?usage: rig-status <tenant> [qitem-id | seat@rig | watch seat@rig]}
+shift
+ns="rig-$tenant" pod="rig-$tenant-0"
+K=(kubectl -n "$ns" exec "$pod" -c rig --)
+
+case ${1:-} in
+  "")
+    # shellcheck disable=SC2016  # expanded by the pod's bash
+    "${K[@]}" bash -lc '
+      rig ps --nodes -A 2>&1 | grep -vE "^drill|^\s*$" | cut -c1-110
+      echo
+      printf "%-40s %-11s %-34s %-28s %s\n" ROW STATE OWNER "WAITS ON" SUMMARY
+      rig queue list --json 2>/dev/null | jq -r ".[]? | select(.state != \"done\" and .state != \"canceled\" and .state != \"failed\")
+        | [.qitemId, .state, .destinationSession, (.blockedOn // \"-\"), ((.summary // .body // \"\") | gsub(\"\\\\s+\"; \" \") | .[0:60])] | @tsv" \
+        | while IFS=$(printf "\t") read -r id st own wait sum; do printf "%-40s %-11s %-34s %-28s %s\n" "$id" "$st" "$own" "${wait:0:28}" "$sum"; done' ;;
+  qitem-*)
+    # shellcheck disable=SC2016
+    "${K[@]}" bash -lc '
+      R=$0
+      rig queue show "$R" --json | jq -r "\"\(.qitemId)  \(.state)  owner \(.destinationSession)  waits on \(.blockedOn // \"-\")\", \"tags: \(.tags | join(\", \"))\", \"\", (.summary // ((.body // \"\") | .[0:600]))"
+      echo; echo "transitions:"
+      rig queue transitions "$R" --json 2>/dev/null | jq -r ".[]? | \"  \((.ts // .at // \"\")[0:19])  \(.toState // .state // \"\")  \((.note // .transitionNote // \"\") | gsub(\"\\\\s+\"; \" \") | .[0:240])\""
+      echo; echo "rows made for it (parent:/task: tags):"
+      rig queue list -A --json 2>/dev/null | jq -r --arg r "$R" ".[]? | select(.tags // [] | (index(\"parent:\"+\$r) or index(\"task:\"+\$r)))
+        | \"  \(.qitemId)  \(.state)  \(.destinationSession)  waits on \(.blockedOn // \"-\")\""' "$1" ;;
+  watch)
+    seat=${2:?usage: rig-status <tenant> watch <seat@rig>}
+    exec kubectl -n "$ns" exec -it "$pod" -c rig -- env TERM="${TERM:-xterm-256color}" tmux attach -r -t "$seat" ;;
+  *@*)
+    "${K[@]}" rig capture "$1" 2>/dev/null | grep -v '^\s*$' | tail -60 ;;
+  *)
+    echo "rig-status: '$1' is not a qitem id, seat@rig or 'watch'" >&2; exit 2 ;;
+esac
