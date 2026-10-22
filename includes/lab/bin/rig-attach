@@ -19,12 +19,30 @@ KUBECTL=(kubectl -n "$ns")
 "${KUBECTL[@]}" get pod "$pod" >/dev/null 2>&1 \
   || { echo "rig-attach: pod $ns/$pod not found (is the tenant running? kubectl -n $ns get pods)" >&2; exit 1; }
 
+# A view is stale when it has fewer panes attached to seats (`tmux attach -t <seat>`) than the rig has running seats:
+# herdr restores a saved layout after a pod restart as plain shells, and seats added later are missing from it.
+# A stale view is closed and rebuilt; the seats themselves are untouched (the panes only view their tmux sessions).
+# shellcheck disable=SC2016  # the script below is expanded by the pod's bash
 "${KUBECTL[@]}" exec "$pod" -c rig -- bash -lc '
   set -e
   rig_name="$1"
   pgrep -f "^herdr server" >/dev/null || { setsid -f herdr server >"${TMPDIR:-/tmp}/herdr-server.log" 2>&1; sleep 1; }
-  if [ -n "$rig_name" ] && ! herdr workspace list 2>/dev/null | jq -e --arg r "$rig_name" \
-       "any(.result.workspaces[]; .label == \$r)" >/dev/null; then
+  [ -n "$rig_name" ] || exit 0
+  ws=$(herdr workspace list 2>/dev/null | jq -r --arg r "$rig_name" ".result.workspaces[]? | select(.label == \$r) | .workspace_id" | head -1)
+  if [ -n "$ws" ]; then
+    seats=$(rig ps --nodes --rig "$rig_name" --json 2>/dev/null | jq "[.[] | select(.lifecycleState == \"running\")] | length")
+    attached=0
+    for p in $(herdr pane list 2>/dev/null | jq -r --arg w "$ws" ".result.panes[]? | select(.workspace_id == \$w) | .pane_id"); do
+      herdr pane process-info --pane "$p" 2>/dev/null \
+        | jq -e ".result.process_info.foreground_processes[]? | select(.cmdline | test(\"tmux.* attach\"))" >/dev/null && attached=$((attached + 1))
+    done
+    if [ "$attached" -lt "${seats:-0}" ]; then
+      echo "rig-attach: the $rig_name view shows $attached of ${seats:-0} seats; rebuilding it" >&2
+      herdr workspace close "$ws" >/dev/null 2>&1 || true
+      ws=""
+    fi
+  fi
+  if [ -z "$ws" ]; then
     rig terminal open "$rig_name" --provider herdr >/dev/null 2>&1 || echo "rig-attach: could not open the $rig_name view (is the rig up? rig ps --nodes --rig $rig_name)" >&2
   fi
 ' _ "$rig"
