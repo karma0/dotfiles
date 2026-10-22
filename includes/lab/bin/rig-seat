@@ -10,4 +10,10 @@ set -euo pipefail
 tenant=${1:?usage: rig-seat <tenant> list|add|remove|sync|reap ...}
 shift
 rig=${SEAT_RIG:-$tenant-dev}
-exec kubectl -n "rig-$tenant" exec "rig-$tenant-0" -c rig -- bash -lc 'SEAT_RIG="$0" exec seat "$@"' "$rig" "$@"
+# A tenant without a dev rig (rig-tafylabs today: kernel only, no tafy-rigs on /work) has no `seat`.
+# shellcheck disable=SC2016  # the inner script is expanded by the pod's bash, not here
+exec kubectl -n "rig-$tenant" exec "rig-$tenant-0" -c rig -- bash -lc '
+  command -v seat >/dev/null && [ -f "/work/tafy-rigs/rigs/$0/rig.yaml" ] || {
+    echo "rig-seat: rig-'"$tenant"' has no dev rig $0 (no /work/tafy-rigs/rigs/$0); its kernel runs, but there are no seats to manage" >&2
+    exit 1; }
+  SEAT_RIG="$0" exec seat "$@"' "$rig" "$@"
